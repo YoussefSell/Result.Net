@@ -1,14 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Result.Net
+﻿namespace Result.Net
 {
+    using System;
+    using System.Linq;
+
     /// <summary>
     /// the result error details
     /// </summary>
     public partial class ResultError
     {
+        /// <summary>
+        /// create an instance of <see cref="ResultError"/>
+        /// </summary>
+        /// <param name="message">the message that describe the error</param>
+        /// <param name="code">the code associated with the error</param>
+        public ResultError(string message, string code) : this(message, code, string.Empty, string.Empty) { }
+
         /// <summary>
         /// create an instance of <see cref="ResultError"/>
         /// </summary>
@@ -48,7 +54,7 @@ namespace Result.Net
     /// <summary>
     /// partial part for <see cref="ResultError"/>
     /// </summary>
-    public partial class ResultError : System.IEquatable<ResultError>
+    public partial class ResultError : IEquatable<ResultError>
     {
         /// <inheritdoc/>
         public bool Equals(ResultError other)
@@ -111,7 +117,7 @@ namespace Result.Net
         /// </summary>
         /// <param name="exception">the exception to extract the errors from it.</param>
         /// <returns>an array of <see cref="ResultError"/></returns>
-        public static ResultError[] GetFromException(Exception exception) 
+        public static ResultError[] GetFromException(Exception exception)
             => exception?.FromHierarchy(ex => ex.InnerException)
                 .Select(ex => MapFromException(exception)).ToArray() ?? Array.Empty<ResultError>();
     }
