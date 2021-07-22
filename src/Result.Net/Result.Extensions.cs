@@ -80,7 +80,7 @@
         /// <param name="key">the key of the data</param>
         /// <param name="data">the data instance</param>
         /// <returns>the instance of result to enable method chaining</returns>
-        public static TResult WithData<TResult>(this TResult result, string key, object data) where TResult : Result
+        public static TResult WithMataData<TResult>(this TResult result, string key, object data) where TResult : Result
         {
             result.MetaData.Add(key, data);
             return result;
