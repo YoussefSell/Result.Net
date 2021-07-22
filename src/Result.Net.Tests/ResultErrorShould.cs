@@ -4,7 +4,7 @@
     using Xunit;
 
     /// <summary>
-    /// the test class for result error with value object
+    /// the test class for result error with data object
     /// </summary>
     public class ResultErrorShould
     {

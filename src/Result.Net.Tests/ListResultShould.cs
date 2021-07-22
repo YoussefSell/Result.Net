@@ -5,17 +5,17 @@
     using Xunit;
 
     /// <summary>
-    /// the test class for result with value object
+    /// the test class for result with data object
     /// </summary>
     public class ListResultShould
     {
         [Fact]
-        public void Create_Success_Result_With_Default_Value()
+        public void Create_Success_Result_With_Default_data()
         {
             // arrange
             var expectedMessage = "Operation Succeeded";
             var expectedStatus = ResultStatus.Succeed;
-            var expectedValue = new[] { 10, 12, 15 };
+            var expecteddata = new[] { 10, 12, 15 };
 
             // act
             var result = Result.ListSuccess(new[] { 10, 12, 15 });
@@ -23,8 +23,8 @@
             // assert
             Assert.Equal(expectedMessage, result.Message);
             Assert.Equal(expectedStatus, result.Status);
-            Assert.Equal(expectedValue, result.Value);
-            Assert.True(result.HasValue());
+            Assert.Equal(expecteddata, result.Data);
+            Assert.True(result.HasData());
 
             Assert.Equal(0, result.Errors.Count);
             Assert.Equal(string.Empty, result.LogTraceCode);
@@ -37,7 +37,7 @@
             // arrange
             var expectedMessage = "success message";
             var expectedCode = "success_code";
-            var expectedValue = new[] { 10, 12, 15 };
+            var expecteddata = new[] { 10, 12, 15 };
 
             // act
             var result = Result.ListSuccess(new[] { 10, 12, 15 })
@@ -46,10 +46,10 @@
 
             // assert
             Assert.Equal(expectedMessage, result.Message);
-            Assert.Equal(expectedValue, result.Value);
+            Assert.Equal(expecteddata, result.Data);
             Assert.Equal(expectedCode, result.Code);
 
-            Assert.True(result.HasValue());
+            Assert.True(result.HasData());
             Assert.False(result.HasErrors());
             Assert.Equal(0, result.Errors.Count);
             Assert.Equal(string.Empty, result.LogTraceCode);
@@ -57,20 +57,20 @@
         }
 
         [Fact]
-        public void Create_Failed_Result_With_Default_Value()
+        public void Create_Failed_Result_With_Default_data()
         {
             // arrange
             var expectedMessage = "Operation Failed";
             var expectedStatus = ResultStatus.Failed;
 
             // act
-            var result = Result.ListFailed<int>();
+            var result = Result.ListFailure<int>();
 
             // assert
             Assert.Equal(expectedMessage, result.Message);
             Assert.Equal(expectedStatus, result.Status);
 
-            Assert.False(result.HasValue());
+            Assert.False(result.HasData());
             Assert.False(result.HasErrors());
             Assert.Equal(0, result.Errors.Count);
             Assert.NotEqual(string.Empty, result.LogTraceCode);
@@ -85,7 +85,7 @@
             var expectedCode = "test_code";
 
             // act
-            var result = Result.ListFailed<int>()
+            var result = Result.ListFailure<int>()
                 .WithMessage("failed message")
                 .WithCode("test_code");
 
@@ -93,7 +93,7 @@
             Assert.Equal(expectedMessage, result.Message);
             Assert.Equal(expectedCode, result.Code);
 
-            Assert.False(result.HasValue());
+            Assert.False(result.HasData());
             Assert.False(result.HasErrors());
             Assert.Equal(0, result.Errors.Count);
             Assert.NotEqual(string.Empty, result.LogTraceCode);
@@ -109,7 +109,7 @@
             var expectedErrorsCount = 2;
 
             // act
-            var result = Result.ListFailed<int>()
+            var result = Result.ListFailure<int>()
                 .WithMessage("failed message")
                 .WithCode("test_code")
                 .WithErrors(new[]
@@ -122,7 +122,7 @@
             Assert.Equal(expectedMessage, result.Message);
             Assert.Equal(expectedCode, result.Code);
 
-            Assert.False(result.HasValue());
+            Assert.False(result.HasData());
             Assert.True(result.HasErrors());
             Assert.Equal(expectedErrorsCount, result.Errors.Count);
             Assert.NotEqual(string.Empty, result.LogTraceCode);
@@ -138,7 +138,7 @@
             var expectedExceptionErrorMessage = "exception message";
 
             // act
-            var result = Result.ListFailed<int>()
+            var result = Result.ListFailure<int>()
                 .WithMessage("failed message")
                 .WithCode("test_code")
                 .WithErrors(new Exception("exception message"));
@@ -148,7 +148,7 @@
             Assert.Equal(expectedMessage, result.Message);
             Assert.Equal(expectedExceptionErrorMessage, result.Errors.First().Message);
 
-            Assert.False(result.HasValue());
+            Assert.False(result.HasData());
             Assert.True(result.HasErrors());
             Assert.NotEqual(string.Empty, result.LogTraceCode);
             Assert.Equal(ResultStatus.Failed, result.Status);

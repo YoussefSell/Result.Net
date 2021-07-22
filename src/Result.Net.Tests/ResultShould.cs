@@ -10,10 +10,10 @@ namespace Result.Net.Tests
     public class ResultShould
     {
         [Fact]
-        public void Create_Success_Result_With_Default_Value()
+        public void Create_Success_Result_With_Default_data()
         {
             // arrange
-            var expectedMessage = "Operation Succeeded";
+            var expectedMessage = string.Empty;
             var expectedStatus = ResultStatus.Succeed;
 
             // act
@@ -23,7 +23,7 @@ namespace Result.Net.Tests
             Assert.Equal(expectedMessage, result.Message);
             Assert.Equal(expectedStatus, result.Status);
 
-            Assert.False(result.HasValue());
+            Assert.False(result.HasData());
             Assert.False(result.HasErrors());
             Assert.Equal(0, result.Errors.Count);
             Assert.Equal(string.Empty, result.LogTraceCode);
@@ -46,7 +46,7 @@ namespace Result.Net.Tests
             Assert.Equal(expectedMessage, result.Message);
             Assert.Equal(expectedCode, result.Code);
 
-            Assert.False(result.HasValue());
+            Assert.False(result.HasData());
             Assert.False(result.HasErrors());
             Assert.Equal(0, result.Errors.Count);
             Assert.Equal(string.Empty, result.LogTraceCode);
@@ -54,20 +54,20 @@ namespace Result.Net.Tests
         }
 
         [Fact]
-        public void Create_Failed_Result_With_Default_Value()
+        public void Create_Failed_Result_With_Default_data()
         {
             // arrange
             var expectedMessage = "Operation Failed";
             var expectedStatus = ResultStatus.Failed;
 
             // act
-            var result = Result.Failed();
+            var result = Result.Failure();
 
             // assert
             Assert.Equal(expectedMessage, result.Message);
             Assert.Equal(expectedStatus, result.Status);
 
-            Assert.False(result.HasValue());
+            Assert.False(result.HasData());
             Assert.False(result.HasErrors());
             Assert.Equal(0, result.Errors.Count);
             Assert.NotEqual(string.Empty, result.LogTraceCode);
@@ -82,7 +82,7 @@ namespace Result.Net.Tests
             var expectedCode = "test_code";
 
             // act
-            var result = Result.Failed()
+            var result = Result.Failure()
                 .WithMessage("failed message")
                 .WithCode("test_code");
 
@@ -90,7 +90,7 @@ namespace Result.Net.Tests
             Assert.Equal(expectedMessage, result.Message);
             Assert.Equal(expectedCode, result.Code);
 
-            Assert.False(result.HasValue());
+            Assert.False(result.HasData());
             Assert.False(result.HasErrors());
             Assert.Equal(0, result.Errors.Count);
             Assert.NotEqual(string.Empty, result.LogTraceCode);
@@ -106,7 +106,7 @@ namespace Result.Net.Tests
             var expectedErrorsCount = 2;
 
             // act
-            var result = Result.Failed()
+            var result = Result.Failure()
                 .WithMessage("failed message")
                 .WithCode("test_code")
                 .WithErrors(new[]
@@ -119,7 +119,7 @@ namespace Result.Net.Tests
             Assert.Equal(expectedMessage, result.Message);
             Assert.Equal(expectedCode, result.Code);
 
-            Assert.False(result.HasValue());
+            Assert.False(result.HasData());
             Assert.True(result.HasErrors());
             Assert.Equal(expectedErrorsCount, result.Errors.Count);
             Assert.NotEqual(string.Empty, result.LogTraceCode);
@@ -135,7 +135,7 @@ namespace Result.Net.Tests
             var expectedExceptionErrorMessage = "exception message";
 
             // act
-            var result = Result.Failed()
+            var result = Result.Failure()
                 .WithMessage("failed message")
                 .WithCode("test_code")
                 .WithErrors(new Exception("exception message"));
@@ -145,7 +145,7 @@ namespace Result.Net.Tests
             Assert.Equal(expectedMessage, result.Message);
             Assert.Equal(expectedExceptionErrorMessage, result.Errors.First().Message);
 
-            Assert.False(result.HasValue());
+            Assert.False(result.HasData());
             Assert.True(result.HasErrors());
             Assert.NotEqual(string.Empty, result.LogTraceCode);
             Assert.Equal(ResultStatus.Failed, result.Status);
