@@ -13,6 +13,7 @@
         /// <summary>
         /// set the message related to this result instance
         /// </summary>
+        /// <param name="result">the result object instance</param>
         /// <param name="message">the message data</param>
         /// <returns>the current instance to enable method chaining</returns>
         public static TResult WithMessage<TResult>(this TResult result, string message) where TResult : Result
@@ -24,6 +25,7 @@
         /// <summary>
         /// set the code related to this result instance
         /// </summary>
+        /// <param name="result">the result object instance</param>
         /// <param name="code">the code data</param>
         /// <returns>the current instance to enable method chaining</returns>
         public static TResult WithCode<TResult>(this TResult result, string code) where TResult : Result
@@ -35,6 +37,7 @@
         /// <summary>
         /// set the log trace Code related to this result instance
         /// </summary>
+        /// <param name="result">the result object instance</param>
         /// <param name="traceCode">the trace Code data</param>
         /// <returns>the current instance to enable method chaining</returns>
         public static TResult WithLogTraceCode<TResult>(this TResult result, string traceCode) where TResult : Result
@@ -46,6 +49,7 @@
         /// <summary>
         /// set the log trace Code related to this result instance
         /// </summary>
+        /// <param name="result">the result object instance</param>
         /// <param name="errors">the trace Code data</param>
         /// <returns>the current instance to enable method chaining</returns>
         public static TResult WithErrors<TResult>(this TResult result, params ResultError[] errors) where TResult : Result
@@ -61,6 +65,7 @@
         /// <summary>
         /// set the exception related to this result instance
         /// </summary>
+        /// <param name="result">the result object instance</param>
         /// <param name="exception">the exception instance</param>
         /// <returns>the current instance to enable method chaining</returns>
         public static TResult WithErrors<TResult>(this TResult result, Exception exception) where TResult : Result
@@ -139,7 +144,6 @@
         /// <summary>
         /// convert the result instance to an exception.
         /// </summary>
-        /// <typeparam name="TResult">the result type</typeparam>
         /// <typeparam name="TException">the exception type</typeparam>
         /// <param name="result">the result object instance</param>
         /// <returns>an instance of the exception.</returns>

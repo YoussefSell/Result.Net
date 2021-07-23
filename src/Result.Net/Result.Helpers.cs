@@ -75,7 +75,7 @@
         /// <summary>
         /// build a Result form the given result instance.
         /// </summary>
-        /// <typeparam name="TData">the type of th result data</typeparam>
+        /// <typeparam name="TResultOut">the type of the result object</typeparam>
         /// <param name="result">the result instance to build the from.</param>
         /// <returns>the new instance of result object</returns>
         /// <exception cref="ArgumentNullException">if the given result instance is null</exception>
@@ -94,7 +94,8 @@
         /// <summary>
         /// build a Result form the given result instance.
         /// </summary>
-        /// <typeparam name="TData">the type of th result data</typeparam>
+        /// <typeparam name="TData">the type of the result data</typeparam>
+        /// <typeparam name="TResultOut">the type of the result object</typeparam>
         /// <param name="result">the result instance to build the from.</param>
         /// <returns>the new instance of result object</returns>
         /// <exception cref="ArgumentNullException">if the given result instance is null</exception>
@@ -115,6 +116,7 @@
         /// build a Result form the given result instance.
         /// </summary>
         /// <typeparam name="TData">the type of th result data</typeparam>
+        /// <typeparam name="TResultOut">the type of the result object</typeparam>
         /// <param name="result">the result instance to build the from.</param>
         /// <returns>the new instance of result object</returns>
         /// <exception cref="ArgumentNullException">if the given result instance is null</exception>
