@@ -1,8 +1,6 @@
 ﻿namespace Result.Net
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// this class defines a result object without a data. 
@@ -49,28 +47,6 @@
     public partial class Result
     {
         /// <summary>
-        /// create an instance of the Result object with given status, the message, code, and logTraceId 
-        /// will be set to default data base on the result status type.
-        /// </summary>
-        /// <param name="status">the status of the result</param>
-        public Result(ResultStatus status)
-        {
-            Status = status;
-            Message = string.Empty;
-            LogTraceCode = string.Empty;
-            Code = ResultCode.OperationSucceeded;
-            Errors = new LinkedList<ResultError>();
-            MetaData = new Dictionary<string, object>();
-
-            if (Status == ResultStatus.Failed)
-            {
-                Code = ResultCode.OperationFailed;
-                LogTraceCode = Utilities.GenerateLogTraceErrorCode();
-                return;
-            }
-        }
-
-        /// <summary>
         /// create an instance of the Result object with given status, message, code and errors
         /// </summary>
         /// <param name="status">the status of the result</param>
@@ -92,9 +68,31 @@
             : this(status)
         {
             Code = code;
-            Errors = errors;
             Message = message;
             LogTraceCode = logTraceCode;
+            Errors = new LinkedList<ResultError>(errors);
+        }
+
+        /// <summary>
+        /// create an instance of the Result object with given status, the message, code, and logTraceId 
+        /// will be set to default data base on the result status type.
+        /// </summary>
+        /// <param name="status">the status of the result</param>
+        public Result(ResultStatus status)
+        {
+            Status = status;
+            Message = string.Empty;
+            LogTraceCode = string.Empty;
+            Code = ResultCode.OperationSucceeded;
+            Errors = new LinkedList<ResultError>();
+            MetaData = new Dictionary<string, object>();
+
+            if (Status == ResultStatus.Failed)
+            {
+                Code = ResultCode.OperationFailed;
+                LogTraceCode = Utilities.GenerateLogTraceErrorCode();
+                return;
+            }
         }
 
         /// <summary>

@@ -24,8 +24,7 @@
         /// </summary>
         /// <param name="data">the data associated with the result</param>
         /// <param name="status">the status of the result</param>
-        public ListResult(IReadOnlyCollection<TData> data, ResultStatus status) 
-            : base(data, status) { }
+        public ListResult(IReadOnlyCollection<TData> data, ResultStatus status) : base(data, status) { }
 
         /// <inheritdoc/>
         public static implicit operator ListResult<TData>(List<TData> result) => ListSuccess(result);
