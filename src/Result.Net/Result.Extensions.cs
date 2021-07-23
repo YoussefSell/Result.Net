@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// a set of extensions methods on top of the result object
@@ -89,7 +90,7 @@
         /// <summary>
         /// Determines whether the Result object instance has any errors associated with it.
         /// </summary>
-        public static bool HasErrors(this Result result) 
+        public static bool HasErrors(this Result result)
             => !(result is null) && !(result.Errors is null) && result.Errors.Any();
 
         /// <summary>
@@ -103,7 +104,7 @@
         /// </summary>
         /// <param name="result">the result object instance</param>
         /// <returns>true if successful result, otherwise false</returns>
-        public static bool IsSuccess(this Result result) 
+        public static bool IsSuccess(this Result result)
             => !(result is null) && result.Status == ResultStatus.Succeed;
 
         /// <summary>
@@ -111,7 +112,7 @@
         /// </summary>
         /// <param name="result">the result object instance</param>
         /// <returns>true if failure result, otherwise false</returns>
-        public static bool IsFailure(this Result result) 
+        public static bool IsFailure(this Result result)
             => !(result is null) && result.Status == ResultStatus.Failed;
 
         /// <summary>
@@ -126,7 +127,14 @@
         /// <param name="result">the result object instance</param>
         /// <returns>an instance of the exception.</returns>
         public static ResultException ToException<TResult>(this TResult result)
-            where TResult : Result => ToException<TResult, ResultException>(result);
+            where TResult : Result
+        {
+            var mapper = ResultExceptionMapper.GetMapping<ResultException>(result.Code);
+            if (mapper is null)
+                return new ResultException(result);
+
+            return mapper(result);
+        }
 
         /// <summary>
         /// convert the result instance to an exception.
@@ -135,15 +143,35 @@
         /// <typeparam name="TException">the exception type</typeparam>
         /// <param name="result">the result object instance</param>
         /// <returns>an instance of the exception.</returns>
-        public static TException ToException<TResult, TException>(this TResult result) 
+        /// <exception cref="ResultExceptionMappingNotFoundException">if there is no mapping configured for the result error code to the given exception type.</exception>
+        public static TException ToException<TException>(this Result result)
             where TException : ResultException
-            where TResult : Result
         {
-            var mapper = ResultExceptionMapper<TException>.GetMapping(result.Code);
+            var mapper = ResultExceptionMapper.GetMapping<TException>(result.Code);
             if (mapper is null)
-                return new ResultException(result) as TException;
+                throw new ResultExceptionMappingNotFoundException(result.Code, typeof(TException));
 
             return mapper(result);
+        }
+
+        /// <summary>
+        /// convert the current exception to a result instance.
+        /// </summary>
+        /// <returns>an instance of Result object</returns>
+        public static Result ToResult(this Exception exception)
+        {
+            var result = new Result(status: ResultStatus.Failed,
+                code: ResultCode.OperationFailedException,
+                message: exception.Message);
+
+            if (!(exception.InnerException is null))
+                result.WithErrors(ResultError.GetFromException(exception.InnerException));
+
+            if (exception.Data.Count > 0)
+                foreach (var key in exception.Data.Keys)
+                    result.WithMataData(key as string, exception.Data[key]);
+
+            return result;
         }
     }
 }
