@@ -160,12 +160,10 @@
         /// <returns>an instance of Result object</returns>
         public static Result ToResult(this Exception exception)
         {
-            var result = new Result(status: ResultStatus.Failed,
-                code: ResultCode.OperationFailedException,
-                message: exception.Message);
-
-            if (!(exception.InnerException is null))
-                result.WithErrors(ResultError.GetFromException(exception.InnerException));
+            var result = Result.Failure()
+                .WithMessage(exception.Message)
+                .WithCode(ResultCode.OperationFailedException)
+                .WithErrors(exception.InnerException);
 
             if (exception.Data.Count > 0)
                 foreach (var key in exception.Data.Keys)
