@@ -33,7 +33,7 @@
         /// </summary>
         /// <param name="code">the error result code.</param>
         /// <returns>the mapping setup function</returns>
-        internal static Func<Result, TException> GetMapping(string code)
+        public static Func<Result, TException> GetMapping(string code)
         {
             if (string.IsNullOrEmpty(code))
                 return null;
