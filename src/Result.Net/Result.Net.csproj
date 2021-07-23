@@ -1,15 +1,28 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>YoussefSell.Result.Net</PackageId>
+
+    <Version>1.0.0</Version>
+    <Title>Result.Net</Title>
+    <Authors>Youssef Sellami</Authors>
+    <Description>A Result Object for better error handling.</Description>
+    <PackageTags>Result.Net; Result Object; Error Handling</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/YoussefSell/Result.Net</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/YoussefSell/Result.Net</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/YoussefSell/Result.Net/releases</PackageReleaseNotes>
+    <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
