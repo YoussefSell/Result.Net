@@ -27,13 +27,13 @@ var successResult = Result.Success<float>(55.5)
   .WithMessage("Operation Succeeded");
 
 // to create a failed result with a message
-var failedResult = Result.Failed<float>()
+var failedResult = Result.Failure<float>()
   .WithMessage("Operation Failed");
 ```
 you can use error code in order to organize and better document your errors.
 ```csharp
 // create a failed result with a message and code
-var failedResult = Result.Failed()
+var failedResult = Result.Failure()
   .WithMessage("Othe provided email is not valid")
   .WithCode(ResultCode.InvalidEmail);
 ```
@@ -41,7 +41,7 @@ var failedResult = Result.Failed()
 
 you can also provide an ResultError to better define what happened
 ```csharp
-var failedResult = Result.Failed()
+var failedResult = Result.Failure()
   .WithMessage("Othe provided email is not valid")
   .WithCode("email_validation")
   .WithError(new []
@@ -62,7 +62,7 @@ public Result DoSomeWork()
   }
   catch(Exception ex)
   {
-    return Result.Failed()
+    return Result.Failure()
       .WithMessage("an internal exception has been thrown")
       .WithCode(ResultCode.OperationFailedException)
       .WithError(ex);
