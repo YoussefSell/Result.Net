@@ -175,5 +175,11 @@
 
             return result;
         }
+
+        /// <summary>
+        /// execute a trow statement on the current exception instance.
+        /// </summary>
+        /// <param name="exception">the exception instance.</param>
+        public static void Throw(this Exception exception) => throw exception;
     }
 }
