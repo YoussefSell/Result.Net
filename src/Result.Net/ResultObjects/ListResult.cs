@@ -9,7 +9,7 @@
     public partial class ListResult<TData>
     {
         /// <summary>
-        /// the count on the items in the list
+        /// the count of the items in the list.
         /// </summary>
         public int Count => Data?.Count ?? 0;
     }

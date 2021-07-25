@@ -9,33 +9,32 @@
     public partial class Result
     {
         /// <summary>
-        /// the Status of the result
+        /// Get the Status of the result.
         /// </summary>
         public ResultStatus Status { get; }
 
         /// <summary>
-        /// get the message associated with this result, in case of an ResultError
-        /// this property will hold the ResultError description
+        /// Get or set the message that describes the result of the operation.
         /// </summary>
         public string Message { get; set; }
 
         /// <summary>
-        /// a code that represent a message, used to identify the ResultError
+        /// Get or set the error code that describes the result of the operation.
         /// </summary>
         public string Code { get; set; }
 
         /// <summary>
-        /// a unique log trace code used to trace the result in logs
+        /// Get or set a unique log trace code used to trace the result in logs.
         /// </summary>
         public string LogTraceCode { get; set; }
 
         /// <summary>
-        /// this list of errors associated with the failure of the operation
+        /// Get the list of errors associated with the operation result.
         /// </summary>
         public ICollection<ResultError> Errors { get; }
 
         /// <summary>
-        /// Gets a collection of key/data pairs that provide additional 
+        /// Get a collection of key/data pairs that provide additional 
         /// meta data information about the operation result.
         /// </summary>
         public IDictionary<string, object> MetaData { get; }
