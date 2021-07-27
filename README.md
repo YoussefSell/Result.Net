@@ -1,8 +1,8 @@
 # Result.Net
-a simple wrapper for an operation result to indicate success or failure, instead of throwing exceptions or return false without explanation.
+a simple wrapper over an operation execution results to indicate success or failure, instead of throwing exceptions or returning false without explanation.
 
 ## Quick setup
-to get started install the package using the Nuget package manager `Install-Package YoussefSell.Result.Net`.
+to get started install the package using the [NuGet](https://www.nuget.org/packages/YoussefSell.Result.Net/) package manager `Install-Package YoussefSell.Result.Net`.
 
 ## Simple Usage
 ```csharp
@@ -12,7 +12,7 @@ var successResult = Result.Success();
 // to create a failure result
 var failedResult = Result.Failure();
 ```
-to create a result wrapper for a value you can use Result<<TValue>>
+to create a result wrapper for a value you can use `Result<TValue>`
 ```csharp
 // to create success result with flout value
 var successResult = Result.Success<float>(55.5);
@@ -30,16 +30,16 @@ var successResult = Result.Success<float>(55.5)
 var failedResult = Result.Failure<float>()
   .WithMessage("Operation Failed");
 ```
-you can use error code in order to organize and better document your errors.
+you can utilize error codes to give a better explanation of what happens (useful for machine-to-machine communication).
 ```csharp
 // create a failed result with a message and code
 var failedResult = Result.Failure()
   .WithMessage("Othe provided email is not valid")
   .WithCode(ResultCode.InvalidEmail);
 ```
-**Note** there is a list of predefined error codes that I use frequently, you can find them in [ResultCode](https://github.com/YoussefSell/Result.Net/blob/main/src/Result.Net/Constants/ResultCode.cs).
+**Note** there is a list of predefined error codes that I use frequently, you can find them in [ResultCode](https://github.com/YoussefSell/Result.Net/blob/main/src/Result.Net/Constants/ResultCode.cs) or you can simply use strings.
 
-you can also provide an ResultError to better define what happened
+you can also provide a ResultError to better define what happened
 ```csharp
 var failedResult = Result.Failure()
   .WithMessage("Othe provided email is not valid")
@@ -48,7 +48,7 @@ var failedResult = Result.Failure()
   {
     new ResultError(
       message: "the email host is not allowed",
-      code: "invalid_email_host")
+      code: ("invalid_email_host")
   });
 ```
 if you want to encapsulate an exception you can do the following
