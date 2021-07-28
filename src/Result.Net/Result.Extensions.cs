@@ -204,5 +204,13 @@
         /// </summary>
         /// <param name="exception">the exception instance.</param>
         public static void Throw(this Exception exception) => throw exception;
+
+        /// <summary>
+        /// cast the exception to the given type.
+        /// </summary>
+        /// <typeparam name="TOut">the type to cast the exception to it</typeparam>
+        /// <param name="exception">the exception instance.</param>
+        public static TOut As<TOut>(this ResultException exception) where TOut : ResultException
+            => (TOut)exception;
     }
 }
