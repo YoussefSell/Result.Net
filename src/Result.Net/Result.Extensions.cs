@@ -113,12 +113,35 @@
             => !(result is null) && result.Status == ResultStatus.Succeed;
 
         /// <summary>
-        ///Determines whether the Result object instance represent a successful result.
+        /// Determines whether the Result object instance represent a successful result.
         /// </summary>
         /// <param name="result">the result object instance</param>
         /// <returns>true if failure result, otherwise false</returns>
         public static bool IsFailure(this Result result)
             => !(result is null) && result.Status == ResultStatus.Failed;
+
+        /// <summary>
+        /// Determines whether the failure is caused by the given code.
+        /// </summary>
+        /// <remarks>first we will check the <see cref="Result.Code"/> if equals the given code, 
+        /// if not and <paramref name="checkErrors"/> is set to true will check the <see cref="Result.Errors"/> is any has the given error code</remarks>
+        /// <param name="result">the result object instance</param>
+        /// <param name="code">the error code to check for.</param>
+        /// <param name="checkErrors">true to check any of the errors of the result object has the given code, if false only the result instance will be checked, defaulted to true.</param>
+        /// <returns>true if failure caused by the given code, otherwise false</returns>
+        public static bool FailedBecause(this Result result, string code, bool checkErrors = true)
+        {
+            if (result is null)
+                return false;
+
+            if (result.Code == code)
+                return true;
+
+            if (checkErrors && !(result.Errors is null))
+                return result.Errors.Any(error => error.Code == code);
+
+            return false;
+        }
 
         /// <summary>
         /// check if the given list empty
