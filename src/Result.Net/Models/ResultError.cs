@@ -1,4 +1,4 @@
-﻿namespace Result.Net
+﻿namespace ResultNet
 {
     using System;
     using System.Linq;

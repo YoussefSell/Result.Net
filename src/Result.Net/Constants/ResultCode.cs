@@ -1,4 +1,4 @@
-﻿namespace Result.Net
+﻿namespace ResultNet
 {
     /// <summary>
     /// a list of common result codes

@@ -1,4 +1,4 @@
-namespace Result.Net.Tests
+namespace ResultNet.Tests
 {
     using Xunit;
 

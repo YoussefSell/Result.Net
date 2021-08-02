@@ -1,4 +1,4 @@
-﻿namespace Result.Net
+﻿namespace ResultNet
 {
     /// <summary>
     /// the result status details

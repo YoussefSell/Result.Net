@@ -1,4 +1,4 @@
-﻿namespace Result.Net
+﻿namespace ResultNet
 {
     using System.Collections.Generic;
 
