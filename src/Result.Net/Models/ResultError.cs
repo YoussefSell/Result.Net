@@ -6,7 +6,7 @@
     /// <summary>
     /// the result error details
     /// </summary>
-    public partial class ResultError
+    public partial struct ResultError
     {
         /// <summary>
         /// create an instance of <see cref="ResultError"/>
@@ -54,13 +54,11 @@
     /// <summary>
     /// partial part for <see cref="ResultError"/>
     /// </summary>
-    public partial class ResultError : IEquatable<ResultError>
+    public partial struct ResultError : IEquatable<ResultError>
     {
         /// <inheritdoc/>
         public bool Equals(ResultError other)
         {
-            if (other is null) return false;
-
             if (!other.Code.IsValid() && Code.IsValid()) return false;
             if (!other.Message.IsValid() && Message.IsValid()) return false;
             if (!other.Type.IsValid() && Type.IsValid()) return false;
@@ -78,7 +76,7 @@
             if (obj is null) return false;
             if (obj.GetType() != typeof(ResultError)) return false;
             if (ReferenceEquals(obj, this)) return true;
-            return Equals(obj as ResultError);
+            return Equals((ResultError)obj);
         }
 
         /// <inheritdoc/>
