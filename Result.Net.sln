@@ -1,15 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31205.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Result.Net", "Result.Net\Result.Net.csproj", "{B9163E67-1D8F-48C5-822D-D7355272DAF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Result.Net", "src\Result.Net\Result.Net.csproj", "{B9163E67-1D8F-48C5-822D-D7355272DAF0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B23B23D0-86BF-432B-BA77-83014FAADAAA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{20186602-1B76-4A2F-A737-D670DF88F37A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Result.Net.Tests", "Result.Net.Tests\Result.Net.Tests.csproj", "{E4EC8D5C-9B21-4C5E-AA80-13BACB9A68F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Result.Net.Tests", "tests\Result.Net.Tests\Result.Net.Tests.csproj", "{E4EC8D5C-9B21-4C5E-AA80-13BACB9A68F3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3E4DED98-D096-4E90-ABC2-A38EBA18C461}"
+	ProjectSection(SolutionItems) = preProject
+		CHANGELOG.md = CHANGELOG.md
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
