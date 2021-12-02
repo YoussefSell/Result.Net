@@ -37,7 +37,7 @@ var failedResult = Result.Failure()
   .WithMessage("Othe provided email is not valid")
   .WithCode(ResultCode.InvalidEmail);
 ```
-**Note** there is a list of predefined error codes that I use frequently, you can find them in [ResultCode](https://github.com/YoussefSell/Result.Net/blob/main/src/Result.Net/Constants/ResultCode.cs) or you can simply use strings.
+**Note** there is a list of predefined error codes that I use frequently, you can find them in [ResultCode](https://github.com/YoussefSell/Result.Net/blob/main/src/Result.Net/Constants/ResultCode.cs) or simply use any strings value.
 
 you can also provide a ResultError to better define what happened
 ```csharp
