@@ -193,8 +193,13 @@
                 .WithErrors(exception.InnerException);
 
             if (exception.Data.Count > 0)
+            {
                 foreach (var key in exception.Data.Keys)
-                    result.WithMataData(key as string, exception.Data[key]);
+                {
+                    if (key is string keyValue)
+                        result.WithMataData(keyValue, exception.Data[key]);
+                }
+            }
 
             return result;
         }
