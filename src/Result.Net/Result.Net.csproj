@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>YoussefSell.Result.Net</PackageId>
+    <PackageId>Result.Net</PackageId>
 
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <Title>Result.Net</Title>
     <Authors>Youssef Sellami</Authors>
     <Description>A Result Object for better error handling.</Description>

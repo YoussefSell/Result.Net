@@ -2,7 +2,7 @@
 a simple wrapper over an operation execution results to indicate success or failure, instead of throwing exceptions or returning false without explanation.
 
 ## Quick setup
-to get started install the package using the [NuGet](https://www.nuget.org/packages/YoussefSell.Result.Net/) package manager `Install-Package YoussefSell.Result.Net`.
+to get started install the package using the [NuGet](https://www.nuget.org/packages/Result.Net/) package manager `Install-Package Result.Net`.
 
 ## Simple Usage
 ```csharp
