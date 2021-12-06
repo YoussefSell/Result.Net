@@ -26,15 +26,7 @@ jobs:
 
       - name: Upload assets to release
         run: |
-          assets=()
-          for asset in *.nupkg 
-          do 
-            assets+=("$asset")
-          done
-          for asset in *.snupkg 
-          do 
-            assets+=("$asset")
-          done
-          gh release upload ${{ github.event.release.tag_name }} "${assets[@]}"
+          chmod +x publish-assets.sh
+          publish-assets.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
