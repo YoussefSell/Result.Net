@@ -42,8 +42,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)..\assets\logo.png" Pack="true" PackagePath="logo.png" Visible="false" />
-    <None Include="$(MSBuildThisFileDirectory)..\LICEN*" Pack="true" PackagePath="" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\assets\logo.png" Pack="true" PackagePath="logo.png" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\LICEN*" Pack="true" PackagePath="" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>
