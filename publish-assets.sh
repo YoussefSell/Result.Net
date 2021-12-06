@@ -7,4 +7,4 @@ for asset in *.snupkg
 do 
 assets+=("$asset")
 done
-gh release upload ${{ github.event.release.tag_name }} "${assets[@]}"
+gh release upload $1 "${assets[@]}"
