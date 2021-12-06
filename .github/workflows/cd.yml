@@ -23,3 +23,16 @@ jobs:
         run: dotnet pack --include-symbols -p:SymbolPackageFormat=snupkg --no-build -c Release src/Result.Net/Result.Net.csproj -o .
       - name: Push packages
         run: dotnet nuget push *.nupkg --api-key ${{secrets.NUGET_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Upload assets to release
+        run: |
+          assets=()
+          for asset in ./*.nupkg do 
+            assets+=("$asset")
+          done
+          for asset in ./*.snupkg do 
+            assets+=("$asset")
+          done
+          gh release upload ${{ github.event.release.tag_name }} "${assets[@]}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
