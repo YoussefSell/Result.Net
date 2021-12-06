@@ -26,7 +26,7 @@ jobs:
 
       - name: Upload assets to release
         run: |
-          chmod +x publish-assets.sh
-          publish-assets.sh
+          chmod +x ./publish-assets.sh
+          ./publish-assets.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
