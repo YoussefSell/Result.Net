@@ -115,7 +115,8 @@ public Result DoSomeWork()
   
 for more details check out the [Wiki](https://github.com/YoussefSell/Result.Net/wiki) page.
 
+## Samples
 
-  
-  
-  
+here are some samples of how you can integrate Result.Net with different app types:
+
+- [Console app](https://github.com/YoussefSell/Result.Net/tree/main/samples/Result.Net.Samples.Console)
