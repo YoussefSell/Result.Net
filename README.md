@@ -1,4 +1,9 @@
 # Result.Net
+
+[![](https://img.shields.io/github/license/YoussefSell/Result.Net)](https://github.com/YoussefSell/Result.Net/blob/master/LICENSE)
+[![](https://img.shields.io/nuget/v/Result.Net)](https://www.nuget.org/packages/Result.Net/)
+![Build](https://github.com/YoussefSell/Result.Net/actions/workflows/ci.yml/badge.svg)
+
 a simple wrapper over an operation execution results to indicate success or failure, instead of throwing exceptions or returning false without explanation.
 
 ## Quick setup
