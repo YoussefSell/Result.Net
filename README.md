@@ -19,8 +19,8 @@ var failedResult = Result.Failure();
 ```
 to create a result wrapper for a value you can use `Result<TValue>`
 ```csharp
-// to create success result with flout value
-var successResult = Result.Success<float>(55.5);
+// to create success result with float value
+var successResult = Result.Success<float>(55.5f);
 
 // to create a failed result for a float value
 var failedResult = Result.Failure<float>();
@@ -28,7 +28,7 @@ var failedResult = Result.Failure<float>();
 you can also add a message associated with the result
 ```csharp
 // to create success result with a message
-var successResult = Result.Success<float>(55.5)
+var successResult = Result.Success<float>(55.5f)
   .WithMessage("Operation Succeeded");
 
 // to create a failed result with a message
