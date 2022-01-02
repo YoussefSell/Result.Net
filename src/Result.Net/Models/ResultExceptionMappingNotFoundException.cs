@@ -5,6 +5,7 @@
     /// <summary>
     /// exception thrown when no exception to result error code mapping has been found
     /// </summary>
+    [Serializable]
     public class ResultExceptionMappingNotFoundException : ResultException
     {
         private static readonly string message = @"we couldn't find any mapping between the error code [{error_code}] and exception of type [{exception_name}].
@@ -24,5 +25,10 @@ ex: ResultExceptionMapper.AddMapping(""{error_code}"", result => new {exception_
             Data.Add("errorCodeMissingMapping", errorCode);
             Data.Add("exceptionMissingMapping", exceptionType.FullName);
         }
+
+        /// <inheritdoc/>
+        protected ResultExceptionMappingNotFoundException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
 }
