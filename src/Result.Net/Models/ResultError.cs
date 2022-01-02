@@ -74,9 +74,8 @@
         public override bool Equals(object obj)
         {
             if (obj is null) return false;
-            if (obj.GetType() != typeof(ResultError)) return false;
-            if (ReferenceEquals(obj, this)) return true;
-            return Equals((ResultError)obj);
+            if (obj is ResultError error) return Equals(error);
+            return false;
         }
 
         /// <inheritdoc/>
