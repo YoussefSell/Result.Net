@@ -20,7 +20,7 @@ Result FromException()
 {
     try
     {
-        throw new Exception("test exception");
+        throw new DirectoryNotFoundException("test exception");
     }
     catch (Exception ex)
     {
