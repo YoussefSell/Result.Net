@@ -120,3 +120,9 @@ for more details check out the [Wiki](https://github.com/YoussefSell/Result.Net/
 here are some samples of how you can integrate Result.Net with different app types:
 
 - [Console app](https://github.com/YoussefSell/Result.Net/tree/main/samples/Result.Net.Samples.Console)
+
+## Blog posts
+
+here you will find a list of blog posts explaining how to integrate Result.Net in your applications, also if you have written one let's add it here:
+
+- [To Throw or To Return (Exceptions vs Result Object)?](https://youssefsellami.com/exceptions_vs_result_object/)
