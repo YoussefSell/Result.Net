@@ -15,11 +15,11 @@
             var exception = new Exception("test exception");
 
             // act
-            ResultError error = ResultError.MapFromException(exception);
+            ResultError error = new ResultError(exception);
 
             // assert
             Assert.Equal("test exception", error.Message);
-            Assert.Equal("Exception", error.Type);
+            Assert.Equal(exception.Source, error.Source);
             Assert.Equal(ResultCode.OperationFailedException, error.Code);
         }
     }

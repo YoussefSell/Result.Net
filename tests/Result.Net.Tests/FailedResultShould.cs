@@ -78,8 +78,8 @@
             var result = Result.Failure()
                 .WithErrors(new[]
                 {
-                    new ResultError("test", "test_code", "source", "errorType"),
-                    new ResultError("test", "test_code", "source", "errorType")
+                    new ResultError("test", "test_code", "source"),
+                    new ResultError("test", "test_code", "source")
                 });
 
             // assert
@@ -95,7 +95,7 @@
 
             // act
             var result = Result.Failure()
-                .WithErrors(new Exception("exception message"));
+                .WithError(new Exception("exception message"));
 
             // assert
             Assert.Equal(expectedErrorsCount, result.Errors.Count);

@@ -13,7 +13,7 @@
         /// </summary>
         /// <param name="message">the message that describe the error</param>
         /// <param name="code">the code associated with the error</param>
-        public ResultError(string message, string code) : this(message, code, string.Empty, string.Empty) { }
+        public ResultError(string message, string code) : this(message, code, string.Empty) { }
 
         /// <summary>
         /// create an instance of <see cref="ResultError"/>
@@ -22,12 +22,26 @@
         /// <param name="code">the code associated with the error</param>
         /// <param name="source">the source of the error</param>
         /// <param name="type">the type of the error</param>
-        public ResultError(string message, string code, string source, string type)
+        public ResultError(string message, string code, string source)
         {
-            Message = message;
             Code = code;
             Source = source;
-            Type = type;
+            Message = message;
+
+            Exception = default;
+        }
+
+        /// <summary>
+        /// create an instance of the Result Error associated with a given exception
+        /// </summary>
+        /// <param name="exception">the exception instance</param>
+        public ResultError(Exception exception)
+        {
+            Exception = exception;
+
+            Source = exception.Source;
+            Message = exception.Message;
+            Code = ResultCode.OperationFailedException;
         }
 
         /// <summary>
@@ -46,9 +60,14 @@
         public string Source { get; }
 
         /// <summary>
-        /// type of the error
+        /// Get the exception associated with this result error
         /// </summary>
-        public string Type { get; }
+        public Exception Exception { get; }
+
+        /// <summary>
+        /// is this error is associated with an exception or not
+        /// </summary>
+        public bool IsExceptionError => Exception is not null;
     }
 
     /// <summary>
@@ -59,14 +78,18 @@
         /// <inheritdoc/>
         public bool Equals(ResultError other)
         {
+            if (other.IsExceptionError && IsExceptionError)
+                return other.Exception.Equals(Exception);
+
+            if ((other.IsExceptionError && !IsExceptionError) || (!other.IsExceptionError && IsExceptionError))
+                return false;
+
             if (!other.Code.IsValid() && Code.IsValid()) return false;
             if (!other.Message.IsValid() && Message.IsValid()) return false;
-            if (!other.Type.IsValid() && Type.IsValid()) return false;
             if (!other.Source.IsValid() && Source.IsValid()) return false;
 
             return other.Code.Equals(Code) &&
                 other.Message.Equals(Message) &&
-                other.Type.Equals(Type) &&
                 other.Source.Equals(Source);
         }
 
@@ -74,19 +97,20 @@
         public override bool Equals(object obj)
         {
             if (obj is null) return false;
-            if (obj.GetType() != typeof(ResultError)) return false;
-            if (ReferenceEquals(obj, this)) return true;
-            return Equals((ResultError)obj);
+            if (obj is ResultError error) return Equals(error);
+            return false;
         }
 
         /// <inheritdoc/>
         public override int GetHashCode()
         {
+            if (IsExceptionError)
+                return Exception.GetHashCode();
+
             unchecked
             {
                 var hashCode = 13;
                 hashCode = (hashCode * 397) ^ (Code.IsValid() ? Code.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (Type.IsValid() ? Type.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (Source.IsValid() ? Source.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (Message.IsValid() ? Message.GetHashCode() : 0);
                 return hashCode;
@@ -96,27 +120,5 @@
         /// <inheritdoc/>
         public override string ToString()
             => $"{Message} | Code: '{Code}', Source: '{Source}'";
-
-        /// <summary>
-        /// Generate an Error Object from an exception
-        /// </summary>
-        /// <param name="exception">the exception</param>
-        /// <returns>an Error Object instance</returns>
-        public static ResultError MapFromException(Exception exception)
-            => new ResultError(
-                source: exception.Source,
-                message: exception.Message,
-                type: exception.GetType().Name,
-                code: ResultCode.OperationFailedException
-            );
-
-        /// <summary>
-        /// extract list of errors from the given exception by looking inside the innerException
-        /// </summary>
-        /// <param name="exception">the exception to extract the errors from it.</param>
-        /// <returns>an array of <see cref="ResultError"/></returns>
-        public static ResultError[] GetFromException(Exception exception)
-            => exception?.FromHierarchy(ex => ex.InnerException)
-                .Select(ex => MapFromException(exception)).ToArray() ?? Array.Empty<ResultError>();
     }
 }
