@@ -21,7 +21,6 @@
         /// <param name="message">the message that describe the error</param>
         /// <param name="code">the code associated with the error</param>
         /// <param name="source">the source of the error</param>
-        /// <param name="type">the type of the error</param>
         public ResultError(string message, string code, string source)
         {
             Code = code;
@@ -45,22 +44,22 @@
         }
 
         /// <summary>
-        /// the error message
+        /// Get the error message.
         /// </summary>
         public string Message { get; }
 
         /// <summary>
-        /// the code associated with the exception
+        /// Get the code associated with the exception.
         /// </summary>
         public string Code { get; }
 
         /// <summary>
-        /// the source of the error
+        /// Get the source of the error.
         /// </summary>
         public string Source { get; }
 
         /// <summary>
-        /// Get the exception associated with this result error
+        /// Get the exception associated with this result error.
         /// </summary>
         public Exception Exception { get; }
 

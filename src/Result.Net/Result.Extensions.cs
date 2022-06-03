@@ -196,6 +196,7 @@
         /// match the result status and run the function accordingly.
         /// </summary>
         /// <typeparam name="TResult">the type of the result</typeparam>
+        /// <typeparam name="TOut">the type of the output</typeparam>
         /// <param name="result">the result instance</param>
         /// <param name="onSuccess">the action to run on success</param>
         /// <param name="onFailure">the action to run on failure</param>
