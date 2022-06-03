@@ -90,7 +90,6 @@
             {
                 Code = ResultCode.OperationFailed;
                 LogTraceCode = Utilities.GenerateLogTraceErrorCode();
-                return;
             }
         }
 

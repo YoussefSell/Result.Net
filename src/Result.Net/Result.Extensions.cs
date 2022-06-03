@@ -174,6 +174,50 @@
         }
 
         /// <summary>
+        /// run the given action base on result if success or failure
+        /// </summary>
+        /// <typeparam name="TResult">the type of the result</typeparam>
+        /// <param name="result">the result instance</param>
+        /// <param name="onSuccess">the action to run on success</param>
+        /// <param name="onFailure">the action to run on failure</param>
+        public static void Match<TResult>(this TResult result, Action<TResult> onSuccess, Action<TResult> onFailure)
+            where TResult : Result
+        {
+            if (result.IsFailure())
+            {
+                onFailure?.Invoke(result);
+                return;
+            }
+
+            onSuccess?.Invoke(result);
+        }
+
+        /// <summary>
+        /// match the result status and run the function accordingly.
+        /// </summary>
+        /// <typeparam name="TResult">the type of the result</typeparam>
+        /// <param name="result">the result instance</param>
+        /// <param name="onSuccess">the action to run on success</param>
+        /// <param name="onFailure">the action to run on failure</param>
+        /// <returns>the output </returns>
+        public static TOut Match<TResult, TOut>(this TResult result, Func<TResult, TOut> onSuccess, Func<TResult, TOut> onFailure)
+            where TResult : Result
+        {
+            if (result.IsFailure())
+            {
+                if (onFailure is null)
+                    return default;
+
+                return onFailure(result);
+            }
+
+            if (onSuccess is null)
+                return default;
+
+            return onSuccess(result);
+        }
+
+        /// <summary>
         /// check if the given list empty
         /// </summary>
         public static bool IsListEmpty<TData>(this ListResult<TData> result) => result.Count <= 0;
