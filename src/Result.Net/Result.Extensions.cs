@@ -47,18 +47,35 @@
         }
 
         /// <summary>
-        /// set the log trace Code related to this result instance
+        /// add a result error to the list of errors
         /// </summary>
         /// <param name="result">the result object instance</param>
-        /// <param name="errors">the trace Code data</param>
+        /// <param name="message">the error message</param>
+        /// <param name="code">the error code</param>
         /// <returns>the current instance to enable method chaining</returns>
-        public static TResult WithErrors<TResult>(this TResult result, params ResultError[] errors) where TResult : Result
-        {
-            foreach (var error in errors)
-            {
-                result.Errors.Add(error);
-            }
+        public static TResult WithError<TResult>(this TResult result, string message, string code) where TResult : Result
+            => WithError(result, new ResultError(message, code));
 
+        /// <summary>
+        /// add a result error to the list of errors
+        /// </summary>
+        /// <param name="result">the result object instance</param>
+        /// <param name="message">the error message</param>
+        /// <param name="code">the error code</param>
+        /// <param name="source">the error source</param>
+        /// <returns>the current instance to enable method chaining</returns>
+        public static TResult WithError<TResult>(this TResult result, string message, string code, string source) where TResult : Result
+            => WithError(result, new ResultError(message, code, source));
+
+        /// <summary>
+        /// add a result error to the list of errors
+        /// </summary>
+        /// <param name="result">the result object instance</param>
+        /// <param name="error">the error instance</param>
+        /// <returns>the current instance to enable method chaining</returns>
+        public static TResult WithError<TResult>(this TResult result, ResultError error) where TResult : Result
+        {
+            result.Errors.Add(error);
             return result;
         }
 
@@ -68,12 +85,25 @@
         /// <param name="result">the result object instance</param>
         /// <param name="exception">the exception instance</param>
         /// <returns>the current instance to enable method chaining</returns>
-        public static TResult WithErrors<TResult>(this TResult result, Exception exception) where TResult : Result
+        public static TResult WithError<TResult>(this TResult result, Exception exception) where TResult : Result
         {
-            foreach (var error in ResultError.GetFromException(exception))
-            {
+            if (exception is null)
+                return result;
+
+            result.Errors.Add(new ResultError(exception));
+            return result;
+        }
+
+        /// <summary>
+        /// add a result error to the list of errors
+        /// </summary>
+        /// <param name="result">the result object instance</param>
+        /// <param name="errors">the errors</param>
+        /// <returns>the current instance to enable method chaining</returns>
+        public static TResult WithErrors<TResult>(this TResult result, params ResultError[] errors) where TResult : Result
+        {
+            foreach (var error in errors)
                 result.Errors.Add(error);
-            }
 
             return result;
         }
@@ -144,6 +174,50 @@
         }
 
         /// <summary>
+        /// run the given action base on result if success or failure
+        /// </summary>
+        /// <typeparam name="TResult">the type of the result</typeparam>
+        /// <param name="result">the result instance</param>
+        /// <param name="onSuccess">the action to run on success</param>
+        /// <param name="onFailure">the action to run on failure</param>
+        public static void Match<TResult>(this TResult result, Action<TResult> onSuccess, Action<TResult> onFailure)
+            where TResult : Result
+        {
+            if (result.IsFailure())
+            {
+                onFailure?.Invoke(result);
+                return;
+            }
+
+            onSuccess?.Invoke(result);
+        }
+
+        /// <summary>
+        /// match the result status and run the function accordingly.
+        /// </summary>
+        /// <typeparam name="TResult">the type of the result</typeparam>
+        /// <param name="result">the result instance</param>
+        /// <param name="onSuccess">the action to run on success</param>
+        /// <param name="onFailure">the action to run on failure</param>
+        /// <returns>the output </returns>
+        public static TOut Match<TResult, TOut>(this TResult result, Func<TResult, TOut> onSuccess, Func<TResult, TOut> onFailure)
+            where TResult : Result
+        {
+            if (result.IsFailure())
+            {
+                if (onFailure is null)
+                    return default;
+
+                return onFailure(result);
+            }
+
+            if (onSuccess is null)
+                return default;
+
+            return onSuccess(result);
+        }
+
+        /// <summary>
         /// check if the given list empty
         /// </summary>
         public static bool IsListEmpty<TData>(this ListResult<TData> result) => result.Count <= 0;
@@ -190,7 +264,7 @@
             var result = Result.Failure()
                 .WithMessage(exception.Message)
                 .WithCode(ResultCode.OperationFailedException)
-                .WithErrors(exception.InnerException);
+                .WithError(exception.InnerException);
 
             if (exception.Data.Count > 0)
             {
