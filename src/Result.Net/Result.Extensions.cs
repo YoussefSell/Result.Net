@@ -23,6 +23,41 @@
         }
 
         /// <summary>
+        /// set the localized message related to this result instance,
+        /// the message will be loaded using the error code from <see cref="ResultMessageLocalizer.GetText"/>,
+        /// and using the error code of the result as the text_code
+        /// </summary>
+        /// <typeparam name="TResult">the result instance type</typeparam>
+        /// <param name="result">the result object instance</param>
+        /// <param name="language_code">the language code if any, this value will be passed to <see cref="ResultMessageLocalizer.GetText"/></param>
+        /// <returns>the current instance to enable method chaining</returns>
+        /// <exception cref="ResultTextCodeNotSpecifiedException">if the text_code is not set</exception>
+        /// <exception cref="LocalizationGetTextMethodNotImplementedException">if the <see cref="ResultMessageLocalizer.GetText"/> is not set</exception>
+        /// <exception cref="ResultMessageLocalizationNotFoundException">if the localized message cannot be found</exception>
+        public static TResult WithLocalizedMessage<TResult>(this TResult result) where TResult : Result
+        {
+            if (string.IsNullOrEmpty(result.Code))
+                throw new ResultTextCodeNotSpecifiedException(ResultTextCodeNotSpecifiedException.Message1);
+
+            return result.WithLocalizedMessage(result.Code);
+        }
+
+        /// <summary>
+        /// set the localized message related to this result instance,
+        /// the message will be loaded using the error code from <see cref="ResultMessageLocalizer.GetText"/>
+        /// </summary>
+        /// <typeparam name="TResult">the result instance type</typeparam>
+        /// <param name="result">the result object instance</param>
+        /// <param name="text_code">the text_code to use when loading the translation with <see cref="ResultMessageLocalizer.GetText"/></param>
+        /// <param name="language_code">the language code if any, this value will be passed to <see cref="ResultMessageLocalizer.GetText"/></param>
+        /// <returns>the current instance to enable method chaining</returns>
+        /// <exception cref="ResultTextCodeNotSpecifiedException">if the text_code is not set</exception>
+        /// <exception cref="LocalizationGetTextMethodNotImplementedException">if the <see cref="ResultMessageLocalizer.GetText"/> is not set</exception>
+        /// <exception cref="ResultMessageLocalizationNotFoundException">if the localized message cannot be found</exception>
+        public static TResult WithLocalizedMessage<TResult>(this TResult result, string text_code) where TResult : Result 
+            => result.WithMessage(ResultMessageLocalizer.Localize(text_code));
+
+        /// <summary>
         /// set the code related to this result instance
         /// </summary>
         /// <param name="result">the result object instance</param>
