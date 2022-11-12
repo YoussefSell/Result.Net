@@ -40,8 +40,11 @@ var successResult = Result.Success<float>(55.5f)
 // to create a failed result with a message
 var failedResult = Result.Failure<float>()
   .WithMessage("Operation Failed");
+  
+// to create a failed result with a localized message
+var failedResult = Result.Failure<float>()
+  .WithLocalizedMessage("some_text_code");
 ```
-
 you can utilize error codes to give a better explanation of what happens (useful for machine-to-machine communication).
 
 ```csharp
