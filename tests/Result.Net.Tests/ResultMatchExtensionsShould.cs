@@ -2,7 +2,7 @@
 {
     using Xunit;
 
-    public class ResultExtensionsShould
+    public class ResultMatchExtensionsShould
     {
         [Fact]
         public void Match_Result_On_Success()

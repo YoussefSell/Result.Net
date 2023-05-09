@@ -11,6 +11,7 @@ namespace ResultNet.Tests
         public void Create_Success_Result_With_Default_data()
         {
             // arrange
+            var expectedCode = string.Empty;
             var expectedMessage = string.Empty;
             var expectedStatus = ResultStatus.Succeed;
 
@@ -18,14 +19,14 @@ namespace ResultNet.Tests
             var result = Result.Success();
 
             // assert
-            Assert.Equal(expectedMessage, result.Message);
+            Assert.Equal(expectedCode, result.Code);
             Assert.Equal(expectedStatus, result.Status);
+            Assert.Equal(expectedMessage, result.Message);
 
             Assert.False(result.HasData());
             Assert.False(result.HasErrors());
+            Assert.Null(result.LogTraceCode);
             Assert.Equal(0, result.Errors.Count);
-            Assert.Equal(string.Empty, result.LogTraceCode);
-            Assert.Equal(ResultCode.OperationSucceeded, result.Code);
         }
 
         [Fact]
@@ -46,8 +47,8 @@ namespace ResultNet.Tests
 
             Assert.False(result.HasData());
             Assert.False(result.HasErrors());
+            Assert.Null(result.LogTraceCode);
             Assert.Equal(0, result.Errors.Count);
-            Assert.Equal(string.Empty, result.LogTraceCode);
             Assert.Equal(ResultStatus.Succeed, result.Status);
         }
 

@@ -13,6 +13,7 @@
         public void Create_Failed_Result_With_Default_data()
         {
             // arrange
+            var expectedCode = string.Empty;
             var expectedMessage = string.Empty;
             var expectedStatus = ResultStatus.Failed;
 
@@ -20,14 +21,14 @@
             var result = Result.Failure();
 
             // assert
-            Assert.Equal(expectedMessage, result.Message);
+            Assert.Equal(expectedCode, result.Code);
             Assert.Equal(expectedStatus, result.Status);
+            Assert.Equal(expectedMessage, result.Message);
 
             Assert.False(result.HasData());
             Assert.False(result.HasErrors());
             Assert.Equal(0, result.Errors.Count);
             Assert.NotEqual(string.Empty, result.LogTraceCode);
-            Assert.Equal(ResultCode.OperationFailed, result.Code);
         }
 
         [Fact]
@@ -76,11 +77,10 @@
 
             // act
             var result = Result.Failure()
-                .WithErrors(new[]
-                {
+                .WithErrors(
                     new ResultError("test", "test_code", "source"),
                     new ResultError("test", "test_code", "source")
-                });
+                );
 
             // assert
             Assert.Equal(expectedErrorsCount, result.Errors.Count);

@@ -51,46 +51,17 @@
         /// <param name="status">the status of the result</param>
         /// <param name="message">the message associated with the result</param>
         /// <param name="code">the code associated with the result</param>
-        /// <param name="errors">the list of errors if any</param>
-        public Result(ResultStatus status, string message, string code, params ResultError[] errors)
-            : this(status, message, code, status == ResultStatus.Failed ? Utilities.GenerateLogTraceErrorCode() : "", errors) { }
-
-        /// <summary>
-        /// create an instance of the Result object with given status, message, code and errors
-        /// </summary>
-        /// <param name="status">the status of the result</param>
-        /// <param name="message">the message associated with the result</param>
-        /// <param name="code">the code associated with the result</param>
         /// <param name="logTraceCode">the log trace code associated with the result</param>
         /// <param name="errors">the list of errors if any</param>
-        public Result(ResultStatus status, string message, string code, string logTraceCode, params ResultError[] errors)
-            : this(status)
+        /// <param name="metaData">the collection of meta-data if any</param>
+        public Result(ResultStatus status, string message, string code, string logTraceCode, ICollection<ResultError> errors, IDictionary<string, object> metaData)
         {
             Code = code;
+            Status = status;
             Message = message;
             LogTraceCode = logTraceCode;
-            Errors = new LinkedList<ResultError>(errors);
-        }
-
-        /// <summary>
-        /// create an instance of the Result object with given status, the message, code, and logTraceId 
-        /// will be set to default data base on the result status type.
-        /// </summary>
-        /// <param name="status">the status of the result</param>
-        public Result(ResultStatus status)
-        {
-            Status = status;
-            Message = string.Empty;
-            LogTraceCode = string.Empty;
-            Code = ResultCode.OperationSucceeded;
-            Errors = new LinkedList<ResultError>();
-            MetaData = new Dictionary<string, object>();
-
-            if (Status == ResultStatus.Failed)
-            {
-                Code = ResultCode.OperationFailed;
-                LogTraceCode = Utilities.GenerateLogTraceErrorCode();
-            }
+            Errors = errors ?? new LinkedList<ResultError>();
+            MetaData = metaData ?? new Dictionary<string, object>();
         }
 
         /// <summary>

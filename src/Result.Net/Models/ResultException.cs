@@ -58,11 +58,7 @@
         /// <returns>an instance of Result object</returns>
         public Result ToResult()
         {
-            var result = new Result(status: ResultStatus.Failed,
-                code: Code,
-                message: Message,
-                logTraceCode: LogTraceCode,
-                errors: Errors.ToArray());
+            var result = new Result(status: ResultStatus.Failed, Message, Code, LogTraceCode, Errors, null);
 
             if (Data.Count > 0)
                 foreach (var key in Data.Keys)

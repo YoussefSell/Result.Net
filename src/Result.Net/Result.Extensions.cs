@@ -1,6 +1,7 @@
 ﻿namespace ResultNet
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
     using System.Runtime.CompilerServices;
@@ -254,11 +255,6 @@
         }
 
         /// <summary>
-        /// check if the given list empty
-        /// </summary>
-        public static bool IsListEmpty<TData>(this ListResult<TData> result) => result.Count <= 0;
-
-        /// <summary>
         /// convert the result instance to an exception.
         /// </summary>
         /// <typeparam name="TResult">the result type</typeparam>
@@ -327,5 +323,24 @@
         /// <param name="exception">the exception instance.</param>
         public static TOut As<TOut>(this ResultException exception) where TOut : ResultException
             => (TOut)exception;
+
+        /// <summary>
+        /// cast the given result instance to the given out type
+        /// </summary>
+        /// <typeparam name="TOut">the result output type</typeparam>
+        /// <param name="result">the result instance</param>
+        /// <returns>the new result type</returns>
+        public static Result<TOut> Cast<TOut>(this Result result)
+        {
+            var instance = new Result<TOut>(default!, result.Status, result.Message, result.Code, result.LogTraceCode, new HashSet<ResultError>(), new Dictionary<string, object>());
+
+            foreach (var item in result.MetaData)
+                instance.MetaData.Add(item.Key, item.Value);
+
+            foreach (var item in result.Errors)
+                instance.Errors.Add(item);
+
+            return instance;
+        }
     }
 }
