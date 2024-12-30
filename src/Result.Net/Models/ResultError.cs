@@ -27,6 +27,7 @@
             Code = code;
             Source = source;
             Message = message;
+            IsExceptionError = false;
             MetaData = new Dictionary<string, object>();
         }
 
