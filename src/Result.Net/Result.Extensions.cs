@@ -159,6 +159,19 @@
         }
 
         /// <summary>
+        /// adds an element with the provided key and data to the data list of the result instance
+        /// </summary>
+        /// <param name="error">the result object instance</param>
+        /// <param name="key">the key of the data</param>
+        /// <param name="data">the data instance</param>
+        /// <returns>the instance of result to enable method chaining</returns>
+        public static ResultError WithMataData(this ResultError error, string key, object data)
+        {
+            error.MetaData.Add(key, data);
+            return error;
+        }
+
+        /// <summary>
         /// Determines whether the Result object instance has any errors associated with it.
         /// </summary>
         public static bool HasErrors(this Result result)
@@ -296,16 +309,7 @@
             var result = Result.Failure()
                 .WithMessage(exception.Message)
                 .WithCode(ResultCode.OperationFailedException)
-                .WithError(exception.InnerException);
-
-            if (exception.Data.Count > 0)
-            {
-                foreach (var key in exception.Data.Keys)
-                {
-                    if (key is string keyValue)
-                        result.WithMataData(keyValue, exception.Data[key]);
-                }
-            }
+                .WithError(exception);
 
             return result;
         }

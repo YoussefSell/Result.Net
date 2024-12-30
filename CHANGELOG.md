@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.5.0]
 
+### Changed
+- removed exception as a property from the ResultError definition and added a collection of meta-data that contains the exception if any and will be used to pass more data if needed
+
+## [1.5.0]
+
 ### Added
 
 - added a `Cast<>()` extension method that allow you to cast a `Result` instance into a `Result{TData}` instance.

@@ -1,9 +1,5 @@
 ﻿namespace ResultNet
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     /// <summary>
     /// this class defines a result object without a data, 
     /// use it to describe the status of an operation with no return data.

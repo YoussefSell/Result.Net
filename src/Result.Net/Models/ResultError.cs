@@ -1,6 +1,7 @@
 ﻿namespace ResultNet
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -26,8 +27,7 @@
             Code = code;
             Source = source;
             Message = message;
-
-            Exception = default;
+            MetaData = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -36,11 +36,11 @@
         /// <param name="exception">the exception instance</param>
         public ResultError(Exception exception)
         {
-            Exception = exception;
-
+            IsExceptionError = true;
             Source = exception.Source;
             Message = exception.Message;
             Code = ResultCode.OperationFailedException;
+            MetaData = new Dictionary<string, object>() { { "original_exception", exception } }; 
         }
 
         /// <summary>
@@ -59,14 +59,14 @@
         public string Source { get; }
 
         /// <summary>
-        /// Get the exception associated with this result error.
-        /// </summary>
-        public Exception Exception { get; }
-
-        /// <summary>
         /// is this error is associated with an exception or not
         /// </summary>
-        public bool IsExceptionError => Exception is not null;
+        public bool IsExceptionError { get; }
+
+        /// <summary>
+        /// collection of meta-data that as key-value that contains additional info about the error.
+        /// </summary>
+        public Dictionary<string, object> MetaData { get; }
     }
 
     /// <summary>
@@ -74,11 +74,13 @@
     /// </summary>
     public partial struct ResultError : IEquatable<ResultError>
     {
+        private const string EXCEPTION_KEY = "original_exception";
+
         /// <inheritdoc/>
         public bool Equals(ResultError other)
         {
             if (other.IsExceptionError && IsExceptionError)
-                return other.Exception.Equals(Exception);
+                return other.GetException().Equals(GetException());
 
             if ((other.IsExceptionError && !IsExceptionError) || (!other.IsExceptionError && IsExceptionError))
                 return false;
@@ -104,7 +106,7 @@
         public override int GetHashCode()
         {
             if (IsExceptionError)
-                return Exception.GetHashCode();
+                return GetException().GetHashCode();
 
             unchecked
             {
@@ -119,5 +121,13 @@
         /// <inheritdoc/>
         public override string ToString()
             => $"{Message} | Code: '{Code}', Source: '{Source}'";
+
+        /// <summary>
+        /// get the exception associated with this error if any
+        /// </summary>
+        /// <returns>the exception instance</returns>
+        public Exception GetException() 
+            => MetaData.TryGetValue(EXCEPTION_KEY, out var exception)
+                ? exception as Exception : null;
     }
 }
