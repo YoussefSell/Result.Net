@@ -1,0 +1,14 @@
+@host_address = http://localhost:5196
+
+GET {{host_address}}/WeatherForecast/GetWithSuccess/
+Accept: application/json
+
+###
+
+GET {{host_address}}/WeatherForecast/GetWithFailure/
+Accept: application/json
+
+###
+
+GET {{host_address}}/WeatherForecast/GetWithMediator/
+Accept: application/json

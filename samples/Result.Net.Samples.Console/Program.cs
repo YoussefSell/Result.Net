@@ -16,6 +16,10 @@ Console.WriteLine(successResultForValue);
 var failedResultForValue = Result.Failure<float>();
 Console.WriteLine(failedResultForValue);
 
+// to create a failed result form an exception
+var failedResultFormException = FromException();
+Console.WriteLine(failedResultFormException);
+
 Result FromException()
 {
     try
@@ -27,6 +31,3 @@ Result FromException()
         return ex.ToResult();
     }
 }
-
-var failedResultFormException = FromException();
-Console.WriteLine(failedResultFormException);
