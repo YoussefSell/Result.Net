@@ -25,9 +25,9 @@
             Assert.Equal(expectedStatus, result.Status);
             Assert.Equal(expectedMessage, result.Message);
 
+            Assert.Empty(result.Errors);
             Assert.False(result.HasData());
             Assert.False(result.HasErrors());
-            Assert.Equal(0, result.Errors.Count);
             Assert.NotEqual(string.Empty, result.LogTraceCode);
         }
 
@@ -47,9 +47,9 @@
             Assert.Equal(expectedMessage, result.Message);
             Assert.Equal(expectedCode, result.Code);
 
+            Assert.Empty(result.Errors);
             Assert.False(result.HasData());
             Assert.False(result.HasErrors());
-            Assert.Equal(0, result.Errors.Count);
             Assert.NotEqual(string.Empty, result.LogTraceCode);
             Assert.Equal(ResultStatus.Failed, result.Status);
         }

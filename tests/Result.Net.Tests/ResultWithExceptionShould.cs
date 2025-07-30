@@ -37,7 +37,7 @@
         public void Convert_Result_To_Custom_Exception_If_Mapping_Exist()
         {
             // arrange
-            ResultExceptionMapper.AddMapping("customer_not_found", result => new CustomExceptionException(result));
+            Result.Configure(config => config.ExceptionMapper.AddMapping("customer_not_found", result => new CustomExceptionException(result)));
             
             var result = Result.Failure()
                 .WithMessage("failed to complete the order, customer not found")
@@ -69,7 +69,7 @@
         public void Convert_Result_To_Custom_Exception_And_Throw()
         {
             // arrange
-            ResultExceptionMapper.AddMapping("customer_not_found", result => new CustomExceptionException(result));
+            Result.Configure(config => config.ExceptionMapper.AddMapping("customer_not_found", result => new CustomExceptionException(result)));
 
             var result = Result.Failure()
                 .WithMessage("failed to complete the order, customer not found")

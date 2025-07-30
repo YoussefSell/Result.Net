@@ -7,10 +7,8 @@
         [Fact]
         public void ThrowIfGeTextMethodIsNotSet()
         {
-            // arrange
-            ResultMessageLocalizer.GetText = null;
-
-            // act
+            // arrange & act
+            Result.Configure(config => config.Localization.GetText = null);
 
             // assert
             Assert.Throws<LocalizationGetTextMethodNotImplementedException>(() 
@@ -20,10 +18,8 @@
         [Fact]
         public void ThrowIfTextCodeIsNull()
         {
-            // arrange
-            ResultMessageLocalizer.GetText = (text_code, language_code) => text_code;
-
-            // act
+            // arrange & act
+            Result.Configure(config => config.Localization.GetText = (text_code, language_code) => text_code);
 
             // assert
             Assert.Throws<ResultTextCodeNotSpecifiedException>(()
@@ -33,10 +29,8 @@
         [Fact]
         public void ThrowIfTextCodeIsEmpty()
         {
-            // arrange
-            ResultMessageLocalizer.GetText = (text_code, language_code) => text_code;
-
-            // act
+            // arrange & act
+            Result.Configure(config => config.Localization.GetText = (text_code, language_code) => text_code);
 
             // assert
             Assert.Throws<ResultTextCodeNotSpecifiedException>(()
@@ -46,10 +40,8 @@
         [Fact]
         public void ThrowIfErrorCodeIsNull()
         {
-            // arrange
-            ResultMessageLocalizer.GetText = (text_code, language_code) => text_code;
-
-            // act
+            // arrange & act
+            Result.Configure(config => config.Localization.GetText = (text_code, language_code) => text_code);
 
             // assert
             Assert.Throws<ResultTextCodeNotSpecifiedException>(()
@@ -61,10 +53,8 @@
         [Fact]
         public void ThrowIfErrorCodeIsEmpty()
         {
-            // arrange
-            ResultMessageLocalizer.GetText = (text_code, language_code) => text_code;
-
-            // act
+            // arrange & act
+            Result.Configure(config => config.Localization.GetText = (text_code, language_code) => text_code);
 
             // assert
             Assert.Throws<ResultTextCodeNotSpecifiedException>(()
@@ -74,13 +64,14 @@
         }
 
         [Fact]
-        public void ThrowIfNoTranlsationHasBeenHound()
+        public void ThrowIfNoTranslationHasBeenHound()
         {
-            // arrange
-            ResultMessageLocalizer.ThrowIfNotFound = true;
-            ResultMessageLocalizer.GetText = (text_code, language_code) => null;
-
-            // act
+            // arrange & act
+            Result.Configure(config =>
+            {
+                config.Localization.ThrowIfNotFound = true;
+                config.Localization.GetText = (text_code, language_code) => null;
+            });
 
             // assert
             Assert.Throws<ResultMessageLocalizationNotFoundException>(()
@@ -92,24 +83,30 @@
         public void NotThrowIfNoTranslationHasBeenFound()
         {
             // arrange
-            ResultMessageLocalizer.ReturnNull = true;
-            ResultMessageLocalizer.ThrowIfNotFound = false;
-            ResultMessageLocalizer.GetText = (text_code, language_code) => null;
+            Result.Configure(config =>
+            {
+                config.Localization.ReturnNull = false;
+                config.Localization.ThrowIfNotFound = false;
+                config.Localization.GetText = (text_code, language_code) => null;
+            });
 
             // act
             var result = Result.Success().WithLocalizedMessage("some_text");
 
             // assert
-            Assert.Null(result.Message);
+            Assert.NotNull(result.Message);
         }
 
         [Fact]
         public void ReturnNullIfNoTranslationHasBeenFound()
         {
             // arrange
-            ResultMessageLocalizer.ReturnNull = true;
-            ResultMessageLocalizer.ThrowIfNotFound = false;
-            ResultMessageLocalizer.GetText = (text_code, language_code) => null;
+            Result.Configure(config =>
+            {
+                config.Localization.ReturnNull = true;
+                config.Localization.ThrowIfNotFound = false;
+                config.Localization.GetText = (text_code, language_code) => null;
+            });
 
             // act
             var result = Result.Success().WithLocalizedMessage("some_text");
@@ -119,12 +116,15 @@
         }
 
         [Fact]
-        public void ReturnSameTextCodeIfNoTranlsationHasBeenHound()
+        public void ReturnSameTextCodeIfNoTranslationHasBeenHound()
         {
             // arrange
-            ResultMessageLocalizer.ReturnNull = false;
-            ResultMessageLocalizer.ThrowIfNotFound = false;
-            ResultMessageLocalizer.GetText = (text_code, language_code) => null;
+            Result.Configure(config =>
+            {
+                config.Localization.ReturnNull = false;
+                config.Localization.ThrowIfNotFound = false;
+                config.Localization.GetText = (text_code, language_code) => null;
+            });
 
             // act
             var result = Result.Success().WithLocalizedMessage("some_text");

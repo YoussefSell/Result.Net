@@ -60,12 +60,12 @@
         public string Source { get; }
 
         /// <summary>
-        /// is this error is associated with an exception or not
+        /// Get a value indicating whether this error is associated with an exception or not
         /// </summary>
         public bool IsExceptionError { get; }
 
         /// <summary>
-        /// collection of meta-data that as key-value that contains additional info about the error.
+        /// Get a collection of meta-data that as key-value that contains additional info about the error.
         /// </summary>
         public Dictionary<string, object> MetaData { get; }
     }
@@ -78,7 +78,7 @@
         private const string EXCEPTION_KEY = "original_exception";
 
         /// <inheritdoc/>
-        public bool Equals(ResultError other)
+        public readonly bool Equals(ResultError other)
         {
             if (other.IsExceptionError && IsExceptionError)
                 return other.GetException().Equals(GetException());
@@ -96,7 +96,7 @@
         }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj)
+        public override readonly bool Equals(object obj)
         {
             if (obj is null) return false;
             if (obj is ResultError error) return Equals(error);
@@ -104,7 +104,7 @@
         }
 
         /// <inheritdoc/>
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
             if (IsExceptionError)
                 return GetException().GetHashCode();
@@ -120,14 +120,14 @@
         }
 
         /// <inheritdoc/>
-        public override string ToString()
+        public override readonly string ToString()
             => $"{Message} | Code: '{Code}', Source: '{Source}'";
 
         /// <summary>
         /// get the exception associated with this error if any
         /// </summary>
         /// <returns>the exception instance</returns>
-        public Exception GetException() 
+        public readonly Exception GetException() 
             => MetaData.TryGetValue(EXCEPTION_KEY, out var exception)
                 ? exception as Exception : null;
     }

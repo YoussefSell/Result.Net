@@ -38,7 +38,7 @@
             // assert
             Assert.Equal(ResultCode.OperationFailedException, resultFromException.Code);
             Assert.Equal("test message", resultFromException.Message);
-            Assert.Equal(1, resultFromException.Errors.Count);
+            Assert.Single(resultFromException.Errors);
         }
     }
 }

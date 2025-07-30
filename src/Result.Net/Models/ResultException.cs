@@ -11,19 +11,19 @@
     public class ResultException : Exception
     {
         /// <summary>
-        /// the error code associated with this result exception
+        /// Get or set the error code associated with this result exception
         /// </summary>
         public string Code { get; set; }
 
         /// <summary>
-        /// this list of errors associated with the result exception.
-        /// </summary>
-        public ICollection<ResultError> Errors { get; }
-
-        /// <summary>
-        /// a unique log trace code used to trace the result in logs
+        /// Get a unique log trace code used to trace the result in logs
         /// </summary>
         public string LogTraceCode { get; }
+
+        /// <summary>
+        /// Get the list of errors associated with the result exception.
+        /// </summary>
+        public ICollection<ResultError> Errors { get; }
 
         /// <summary>
         /// create an instance of <see cref="ResultException"/>.
@@ -53,7 +53,7 @@
           System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
 
         /// <summary>
-        /// convert the current exception to a result instance.
+        /// convert the exception instance to a result instance.
         /// </summary>
         /// <returns>an instance of Result object</returns>
         public Result ToResult()
@@ -68,7 +68,7 @@
         }
 
         /// <summary>
-        /// execute a trow statement on the current exception instance.
+        /// execute a throw statement on the exception instance.
         /// </summary>
         public void Throw() => throw this;
     }

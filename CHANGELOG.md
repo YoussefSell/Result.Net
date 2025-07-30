@@ -5,7 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.5.0]
+## [1.7.0]
+
+### Added
+
+- added a new extension method `ToResult<TResult>(this Exception exception)` to convert an exception to a Result instance with generic parameter.
+- added a new configuration style to configure the result library, now all the configuration can be done using the `Result.Configure(options => {})` method. which allows you to set all the related configuration in one place.
+
+### Changed
+
+- updated the comments
+
+## [1.6.0]
 
 ### Changed
 - removed exception as a property from the ResultError definition and added a collection of meta-data that contains the exception if any and will be used to pass more data if needed

@@ -14,6 +14,7 @@
         /// <summary>
         /// set the message related to this result instance
         /// </summary>
+        /// <typeparam name="TResult">the result instance type</typeparam>
         /// <param name="result">the result object instance</param>
         /// <param name="message">the message data</param>
         /// <returns>the current instance to enable method chaining</returns>
@@ -30,7 +31,6 @@
         /// </summary>
         /// <typeparam name="TResult">the result instance type</typeparam>
         /// <param name="result">the result object instance</param>
-        /// <param name="language_code">the language code if any, this value will be passed to <see cref="ResultMessageLocalizer.GetText"/></param>
         /// <returns>the current instance to enable method chaining</returns>
         /// <exception cref="ResultTextCodeNotSpecifiedException">if the text_code is not set</exception>
         /// <exception cref="LocalizationGetTextMethodNotImplementedException">if the <see cref="ResultMessageLocalizer.GetText"/> is not set</exception>
@@ -50,16 +50,15 @@
         /// <typeparam name="TResult">the result instance type</typeparam>
         /// <param name="result">the result object instance</param>
         /// <param name="text_code">the text_code to use when loading the translation with <see cref="ResultMessageLocalizer.GetText"/></param>
-        /// <param name="language_code">the language code if any, this value will be passed to <see cref="ResultMessageLocalizer.GetText"/></param>
         /// <returns>the current instance to enable method chaining</returns>
         /// <exception cref="ResultTextCodeNotSpecifiedException">if the text_code is not set</exception>
         /// <exception cref="LocalizationGetTextMethodNotImplementedException">if the <see cref="ResultMessageLocalizer.GetText"/> is not set</exception>
         /// <exception cref="ResultMessageLocalizationNotFoundException">if the localized message cannot be found</exception>
         public static TResult WithLocalizedMessage<TResult>(this TResult result, string text_code) where TResult : Result 
-            => result.WithMessage(ResultMessageLocalizer.Localize(text_code));
+            => result.WithMessage(ResultObjectConfiguration.MessageLocalizer.Localize(text_code));
 
         /// <summary>
-        /// set the code related to this result instance
+        /// set the error code related to this result instance
         /// </summary>
         /// <param name="result">the result object instance</param>
         /// <param name="code">the code data</param>
@@ -174,12 +173,14 @@
         /// <summary>
         /// Determines whether the Result object instance has any errors associated with it.
         /// </summary>
+        /// <param name="result">the result object instance</param>
         public static bool HasErrors(this Result result)
             => !(result is null) && !(result.Errors is null) && result.Errors.Any();
 
         /// <summary>
         /// Determines whether the Result object instance has any metaData associated with it.
         /// </summary>
+        /// <param name="result">the result object instance</param>
         public static bool HasMetaData(this Result result)
             => !(result is null) && !(result.MetaData is null) && result.MetaData.Any();
 
@@ -192,7 +193,7 @@
             => !(result is null) && result.Status == ResultStatus.Succeed;
 
         /// <summary>
-        /// Determines whether the Result object instance represent a successful result.
+        /// Determines whether the Result object instance represent a failure result.
         /// </summary>
         /// <param name="result">the result object instance</param>
         /// <returns>true if failure result, otherwise false</returns>
@@ -249,7 +250,7 @@
         /// <param name="result">the result instance</param>
         /// <param name="onSuccess">the action to run on success</param>
         /// <param name="onFailure">the action to run on failure</param>
-        /// <returns>the output </returns>
+        /// <returns>the output data</returns>
         public static TOut Match<TResult, TOut>(this TResult result, Func<TResult, TOut> onSuccess, Func<TResult, TOut> onFailure)
             where TResult : Result
         {
@@ -276,7 +277,7 @@
         public static ResultException ToException<TResult>(this TResult result)
             where TResult : Result
         {
-            var mapper = ResultExceptionMapper.GetMapping<ResultException>(result.Code);
+            var mapper = Result.Configuration.ExceptionMapper.GetMapping<ResultException>(result.Code);
             if (mapper is null)
                 return new ResultException(result);
 
@@ -293,7 +294,7 @@
         public static TException ToException<TException>(this Result result)
             where TException : ResultException
         {
-            var mapper = ResultExceptionMapper.GetMapping<TException>(result.Code);
+            var mapper = Result.Configuration.ExceptionMapper.GetMapping<TException>(result.Code);
             if (mapper is null)
                 throw new ResultExceptionMappingNotFoundException(result.Code, typeof(TException));
 
@@ -303,10 +304,26 @@
         /// <summary>
         /// convert the current exception to a result instance.
         /// </summary>
+        /// <param name="exception">the exception instance.</param>
         /// <returns>an instance of Result object</returns>
         public static Result ToResult(this Exception exception)
         {
             var result = Result.Failure()
+                .WithMessage(exception.Message)
+                .WithCode(ResultCode.OperationFailedException)
+                .WithError(exception);
+
+            return result;
+        }
+
+        /// <summary>
+        /// convert the current exception to a result instance.
+        /// </summary>
+        /// <param name="exception">the exception instance.</param>
+        /// <returns>an instance of Result object</returns>
+        public static Result<TResult> ToResult<TResult>(this Exception exception)
+        {
+            var result = Result.Failure<TResult>()
                 .WithMessage(exception.Message)
                 .WithCode(ResultCode.OperationFailedException)
                 .WithError(exception);

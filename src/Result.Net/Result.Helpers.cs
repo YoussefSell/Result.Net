@@ -7,6 +7,18 @@
     public partial class Result
     {
         /// <summary>
+        /// Gets the configuration for result objects.
+        /// </summary>
+        public static ResultObjectConfiguration Configuration => ResultObjectConfiguration.Default;
+
+        /// <summary>
+        /// configure the result object behavior 
+        /// </summary>
+        /// <param name="setup">the setup action</param>
+        public static void Configure(System.Action<ResultObjectConfiguration> setup)
+            => ResultObjectConfiguration.Initialize(setup);
+
+        /// <summary>
         /// create a new <see cref="Result"/> instance with failed status.
         /// </summary>
         /// <returns>an instance of <see cref="Result"/></returns>
@@ -20,7 +32,7 @@
         public static Result<TData> Failure<TData>() => new Result<TData>(default, ResultStatus.Failed, string.Empty, string.Empty, Utilities.GenerateLogTraceErrorCode(), null, null);
 
         /// <summary>
-        /// create a new <see cref="Result"/> instance with failed status.
+        /// create a new <see cref="Result"/> instance with Succeed status.
         /// </summary>
         /// <returns>an instance of <see cref="Result"/></returns>
         public static Result Success() => new Result(ResultStatus.Succeed, string.Empty, string.Empty, null, null, null);

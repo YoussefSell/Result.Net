@@ -70,7 +70,8 @@
         public virtual bool HasData() => false;
 
         /// <inheritdoc/>
-        public override string ToString() => $"{Status} | code: {Code}";
+        public override string ToString() 
+            => $"status: {Status}" + (Code.IsValid() ? $" | code: {Code}" : string.Empty);
     }
 }
 

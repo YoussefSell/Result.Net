@@ -23,10 +23,10 @@ namespace ResultNet.Tests
             Assert.Equal(expectedStatus, result.Status);
             Assert.Equal(expectedMessage, result.Message);
 
+            Assert.Empty(result.Errors);
             Assert.False(result.HasData());
             Assert.False(result.HasErrors());
             Assert.Null(result.LogTraceCode);
-            Assert.Equal(0, result.Errors.Count);
         }
 
         [Fact]
@@ -45,10 +45,10 @@ namespace ResultNet.Tests
             Assert.Equal(expectedMessage, result.Message);
             Assert.Equal(expectedCode, result.Code);
 
+            Assert.Empty(result.Errors);
             Assert.False(result.HasData());
             Assert.False(result.HasErrors());
             Assert.Null(result.LogTraceCode);
-            Assert.Equal(0, result.Errors.Count);
             Assert.Equal(ResultStatus.Succeed, result.Status);
         }
 

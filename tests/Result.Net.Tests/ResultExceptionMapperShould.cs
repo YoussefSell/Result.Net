@@ -11,10 +11,10 @@
             var errorCode = "some_error_code";
 
             // act
-            ResultExceptionMapper.AddMapping(errorCode, result => new ResultException(result));
+            Result.Configure(config => config.ExceptionMapper.AddMapping(errorCode, result => new ResultException(result)));
 
             // assert
-            Assert.NotNull(ResultExceptionMapper.GetMapping<ResultException>(errorCode));
+            Assert.NotNull(Result.Configuration.ExceptionMapper.GetMapping<ResultException>(errorCode));
         }
 
         [Fact]
@@ -22,10 +22,10 @@
         {
             // arrange
             var errorCode = "some_error_code";
-            ResultExceptionMapper.AddMapping(errorCode, result => new ResultException(result));
+            Result.Configure(config => config.ExceptionMapper.AddMapping(errorCode, result => new ResultException(result)));
 
             // act
-            var mapping = ResultExceptionMapper.GetMapping<ResultException>(errorCode);
+            var mapping = Result.Configuration.ExceptionMapper.GetMapping<ResultException>(errorCode);
 
             // assert
             Assert.NotNull(mapping);
@@ -38,7 +38,7 @@
             var errorCode = "non_existing_error_code";
 
             // act
-            var mapping = ResultExceptionMapper.GetMapping<ResultException>(errorCode);
+            var mapping = Result.Configuration.ExceptionMapper.GetMapping<ResultException>(errorCode);
 
             // assert
             Assert.Null(mapping);
@@ -49,10 +49,10 @@
         {
             // arrange
             var errorCode = "some_error_code";
-            ResultExceptionMapper.AddMapping(errorCode, result => new CustomExceptionException(result));
+            Result.Configure(config => config.ExceptionMapper.AddMapping(errorCode, result => new CustomExceptionException(result)));
 
             // act
-            var mapping = ResultExceptionMapper.GetMapping<CustomExceptionException>(errorCode);
+            var mapping = Result.Configuration.ExceptionMapper.GetMapping<CustomExceptionException>(errorCode);
 
             // assert
             Assert.NotNull(mapping);
