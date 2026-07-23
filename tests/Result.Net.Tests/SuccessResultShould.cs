@@ -60,8 +60,8 @@ namespace ResultNet.Tests
 
             // act
             var result = Result.Success()
-                .WithMataData("test1", new { key = 1 })
-                .WithMataData("test2", new { key = 2 });
+                .WithMetadata("test1", new { key = 1 })
+                .WithMetadata("test2", new { key = 2 });
 
             // assert
             Assert.Equal(expectedMetaDataCount, result.MetaData.Count);

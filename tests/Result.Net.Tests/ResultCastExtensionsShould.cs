@@ -25,7 +25,7 @@
             var result = Result.Failure()
                 .WithCode("test_code")
                 .WithMessage("failed message")
-                .WithMataData("test1", new { key = 1 })
+                .WithMetadata("test1", new { key = 1 })
                 .WithErrors(new ResultError("test", "test_code", "source")); ;
 
             // act

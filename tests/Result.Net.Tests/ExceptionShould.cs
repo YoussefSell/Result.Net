@@ -12,7 +12,7 @@
             var result = Result.Failure()
                 .WithMessage("some message")
                 .WithCode("some_code")
-                .WithMataData("some_key", new { key = 1});
+                .WithMetadata("some_key", new { key = 1});
             
             var exception = result.ToException();
 
