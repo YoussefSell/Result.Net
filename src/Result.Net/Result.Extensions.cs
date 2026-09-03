@@ -151,7 +151,22 @@
         /// <param name="key">the key of the data</param>
         /// <param name="data">the data instance</param>
         /// <returns>the instance of result to enable method chaining</returns>
+        [Obsolete("Use 'WithMetadata' instead")]
         public static TResult WithMataData<TResult>(this TResult result, string key, object data) where TResult : Result
+        {
+            result.MetaData.Add(key, data);
+            return result;
+        }
+
+        /// <summary>
+        /// adds an element with the provided key and data to the data list of the result instance
+        /// </summary>
+        /// <typeparam name="TResult">the type of result instance</typeparam>
+        /// <param name="result">the result object instance</param>
+        /// <param name="key">the key of the data</param>
+        /// <param name="data">the data instance</param>
+        /// <returns>the instance of result to enable method chaining</returns>
+        public static TResult WithMetadata<TResult>(this TResult result, string key, object data) where TResult : Result
         {
             result.MetaData.Add(key, data);
             return result;
@@ -164,7 +179,21 @@
         /// <param name="key">the key of the data</param>
         /// <param name="data">the data instance</param>
         /// <returns>the instance of result to enable method chaining</returns>
+        [Obsolete("Use 'WithMetadata' instead")]
         public static ResultError WithMataData(this ResultError error, string key, object data)
+        {
+            error.MetaData.Add(key, data);
+            return error;
+        }
+
+        /// <summary>
+        /// adds an element with the provided key and data to the data list of the result instance
+        /// </summary>
+        /// <param name="error">the result object instance</param>
+        /// <param name="key">the key of the data</param>
+        /// <param name="data">the data instance</param>
+        /// <returns>the instance of result to enable method chaining</returns>
+        public static ResultError WithMetadata(this ResultError error, string key, object data)
         {
             error.MetaData.Add(key, data);
             return error;
