@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.7.0]
 
+### Fixed
+
+- Fixed the ``WithMatadata`` typo and introduced the correctly named ``WithMetadata`` method. Thanks to @fs-paul for the contribution!
+
+## [1.7.0]
+
 ### Added
 
 - added a new extension method `ToResult<TResult>(this Exception exception)` to convert an exception to a Result instance with generic parameter.
